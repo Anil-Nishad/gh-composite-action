@@ -72,4 +72,4 @@ jobs:
       - name: Get code 
         uses: actions/checkout@v4
       - name: Run Custom JavaScript Action
-        uses: ./.github/acions/deploy-s3-javascript
+        uses: ./.github/actions/deploy-s3-javascript
