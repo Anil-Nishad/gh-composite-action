@@ -68,5 +68,8 @@ jobs:
   information:
     runs-on: ubuntu-latest
     steps:
+      # checkout code first because the action is present on the same repo. If action is present in diffrent repo we can proceed without any error.
+      - name: Get code 
+        uses: actions/checkout@v4
       - name: Run Custom JavaScript Action
         uses: ./.github/acions/deploy-s3-javascript
