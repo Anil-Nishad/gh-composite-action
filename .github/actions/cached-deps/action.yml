@@ -1,10 +1,14 @@
 name: 'Get & Cache Dependencies'
 description: 'Get and cache dependencies for a Node.js project'
 inputs:
-  caching: #Editable_Name
+  caching: #Editable Name
     description: 'Whether to cache dependencies or not.'
     required: false
     default: 'true'
+outputs:
+  used-cache:
+    description: 'Whether the cache was used.'
+    value: ${{ steps.install.outputs.cache }}
 runs:
   using: 'composite'
   steps:
@@ -16,6 +20,8 @@ runs:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
+      run: |
+       npm ci
+       echo "::set-output name=cache::'${{ inputs.caching }}'"
       shell: bash
